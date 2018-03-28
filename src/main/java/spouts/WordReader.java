@@ -46,7 +46,7 @@ public class WordReader extends ShellSpout implements IRichSpout {
          */
         if(completed){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 //什么也不做
             }

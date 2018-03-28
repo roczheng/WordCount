@@ -8,6 +8,16 @@
     <artifactId>CommCalc</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Dalston.SR1</spring-cloud.version>
+        <host>/</host>
+        <basepath>/</basepath>
+        <maintitle>积分计算</maintitle>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -20,14 +30,49 @@
                     <compilerVersion>1.8</compilerVersion>
                 </configuration>
             </plugin>
+                <plugin>
+                    <groupId>com.theoryinpractise</groupId>
+                    <artifactId>clojure-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <sourceDirectories>
+                            <sourceDirectory>src/clj</sourceDirectory>
+                        </sourceDirectories>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <!-- Storm Dependency -->
+        <dependency>
+            <groupId>com.cbss.acctmanm</groupId>
+            <artifactId>act_framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-core</artifactId>
             <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.11</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -36,5 +81,38 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>nexus</name>
+            <url>http://10.124.142.81/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>Public Repositories</name>
+            <url>http://10.124.142.81/nexus/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://10.124.142.81/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://10.124.142.81/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

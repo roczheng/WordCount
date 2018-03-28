@@ -1,4 +1,0 @@
-bolts\WordCounter.class
-bolts\WordNormalizer.class
-spouts\WordReader.class
-tasks\TopologyMain.class

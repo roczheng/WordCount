@@ -2,6 +2,7 @@ package tasks;
 
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 import bolts.WordCounter;
@@ -18,16 +19,26 @@ public class TopologyMain {
         //配置
         //System.out.println(" args[0] = "+ args[0]);
         Config conf = new Config();
-        conf.put("wordsFile", "src/main/resources/words.txt");
 
+        conf.put(Config.TOPOLOGY_MAX_SPOUT_PENDING, 1);
         conf.setDebug(false);
 
         //运行拓扑
-        conf.put(Config.TOPOLOGY_MAX_SPOUT_PENDING, 1);
-        LocalCluster cluster = new LocalCluster();
-        cluster.submitTopology("Getting-Started-Topologie", conf, builder.createTopology());
-        Thread.sleep(1000);
-        cluster.shutdown();
+        if (args != null && args.length > 0) {
+            conf.put("wordsFile", args[1]);
+            conf.setNumWorkers(3);
+            StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
+        }
+        else {
+            conf.put("wordsFile", args[0]);
+            conf.setMaxTaskParallelism(3);
+            LocalCluster cluster = new LocalCluster();
+            cluster.submitTopology("word-count", conf, builder.createTopology());
+
+            Thread.sleep(20000);
+
+            cluster.shutdown();
+        }
     }
 }
 
